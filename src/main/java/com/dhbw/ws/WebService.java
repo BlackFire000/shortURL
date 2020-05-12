@@ -1,0 +1,43 @@
+package com.dhbw.ws;
+
+//import com.dhbw.ws.JSONWs;
+import com.dhbw.WSHealthCheck;
+import com.dhbw.WebServiceConfiguration;
+//import com.dhbw.ws.TinyWs;
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+
+public class WebService extends Application<WebServiceConfiguration>
+{
+  public static void main(String[] args) throws Exception
+  {
+    new WebService().run(args);
+  }
+
+  @Override
+  public String getName()
+  {
+    return "webService";
+  }
+
+  @Override
+  public void initialize(Bootstrap<WebServiceConfiguration> bootstrap)
+  {
+    bootstrap.addBundle(new AssetsBundle("/frontend", "/", "index.html", "static" ));
+  }
+
+  @Override
+  public void run(
+    WebServiceConfiguration config,
+    Environment environment) throws Exception
+  {
+    //environment.jersey().register(new JSONWs());
+    environment.jersey().register(new PlainWs());
+    //environment.jersey().register(new TinyWs());
+
+    final WSHealthCheck healthCheck = new WSHealthCheck();
+    environment.healthChecks().register("template", healthCheck);
+  }
+}

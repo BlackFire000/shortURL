@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <title>DHBW Web Programmierung</title>
+    <meta charset="UTF-8" />
+    <meta content="Dieser URLshortener wurde für die DHWB Vorlesung Web-Programmierung erstellt" name="description" />
+    <meta content="Maximilian Anderlohr, Brandon Früh, Arno Wagner, Mats Brüning" name="author" />
+    <meta content="url, shortener" name="keywords" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <!--
+    manifest.json provides metadata used when your web app is installed on a
+    user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/ -->
+    <!--<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />-->
+    <!--Custom Stylesheet-->
+    <link href="main.css" rel="stylesheet" type="text/css" />
+    <!--Fonts from Google-->
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900|
+                Cormorant+Garamond:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
+    <!--Icons from Font Awesome-->
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" rel="stylesheet" />
+    <!--jQuery-->
+    <script crossorigin="anonymous" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <!--Custom Scripts-->
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <header>
+        <div class="container">
+            <h1>Wilkommen bei unserem URL Shortener</h1>
+        </div>
+    </header>
+
+    <aside id="showcase">
+        <div class="container">
+            <h3>
+                Diese Webseite ermöglicht es Ihnen einen langen URL in einen kurzen
+                umzuwandeln. <br> Wenn Sie diesen kurzen URL in Ihren Webbrowser
+                eingeben, werden Sie automatisch auf die originale Webseite
+                weitergeleitet
+            </h3>
+        </div>
+    </aside>
+
+    <main role="main">
+        <section id="inputSection">
+            <form action="api/convert" autocomplete="off" id="inputForm" method="post" onsubmit="afterConvert()">
+                <div class="form__group field">
+                    <label class="form__label" for="longURLInput">Geben Sie hier Ihren originalen URL ein:</label>
+                    <input class="form__field" id="longURLInput" name="longURLInput" placeholder="google.com/" required type="input"/>
+                </div>
+                <div class="form__group field">
+                    <label class="form__label" for="aliasInput" id="labelAliasInput">+<strong> OPTIONAL:</strong> Geben Sie einen personalisierten
+                        Alias ein:<br />BSP: localhost:8080/api/<strong>1B2G</strong></label><br />
+                </div>
+                <div class="form__group field">
+                    <input class="form__field" id="aliasInput" maxlength="4" name="aliasInput" required type="text" /><br />
+                    <input class="button" id="btnInputSubmit" onclick="loadAlias()" type="button" value="Neuer Alias" />
+                </div>
+                <div class="form__group field">
+                    <input class="button" readonly type="submit" value="Konvertieren">
+                </div>
+            </form>
+        </section>
+
+        <section id="outputSection">
+            <form autocomplete="off" id="outputForm">
+                <div class="form__group field">
+                    <label class="form__label" for="shortURLOutput">Hier sehen Sie Ihren kurzen URL:</label>
+                    <input class="form__field" id="shortURLOutput" name="shortURLOutput" readonly type="text" />
+                    <input class="button" id="copyOutputBtn" onclick="copyOutput()" readonly type="button" value="Kopieren" />
+                    <input class="button" id="goOutputBtn" onclick="goOutput()" readonly type="button" value="Wechseln zu der Seite" />
+                </div>
+            </form>
+        </section>
+
+
+        <section id="deleteSection">
+            <form autocomplete="off" class="form__group_delete" id="deleteForm">
+                <input class="button" id="refreshBtn" onclick="refreshTable()" readonly type="button" value="Einträge aktualisieren" />
+                <input class="form__field_delete" id="deleteAlias" maxlength="4" minlength="4" name="deleteAlias" placeholder="Welchen Alias möchten Sie löschen?" required type="text" />
+                <input class="button" id="deleteBtn" onclick="del()" readonly type="button" value="Löschen" />
+                <input class="button" id="deleteAllBtn" onclick="delAll()" readonly type="button" value="Alles löschen" />
+            </form>
+
+        </section>
+
+        <section id="tableSection">
+            <table id="URLtable">
+                <thead>
+                <tr>
+                    <th>Originale URL</th>
+                    <th>Gekürzte URL</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+    <footer id="footer">
+        Copyright &copy; 2020. All rights Reserved
+    </footer>
+</body>
+
+</html>
